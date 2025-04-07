@@ -182,7 +182,20 @@ function PaletteSidebar({ palettes, selectedPalette, onSelectPalette, onClose, s
                         className={`border rounded-lg overflow-hidden cursor-pointer ${
                           selectedPalette?._id === palette._id ? 'ring-2 ring-beige-700' : ''
                         }`}
-                        onClick={() => onSelectPalette(palette)}
+                        onClick={() => {
+                          if (palette._id && palette._id !== 'random' && palette._id !== 'harmony') {
+                            paletteApi.viewPalette(palette._id)
+                              .then(() => {
+                                setPalettes(prevPalettes => 
+                                  prevPalettes.map(p => 
+                                    p._id === palette._id ? {...p, views: p.views + 1} : p
+                                  )
+                                );
+                              })
+                              .catch(err => console.error('Error updating palette view count:', err));
+                          }
+                          onSelectPalette(palette);
+                        }}
                         whileHover={{ y: -3 }}
                       >
                         <div className="p-3">
