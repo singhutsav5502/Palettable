@@ -49,7 +49,7 @@ function ColorPicker({ color, onChange }) {
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            className="absolute z-20 mt-2 p-3 bg-white rounded-lg shadow-xl border border-beige-200"
+            className="absolute z-20 mt-2 p-3 bg-white rounded-lg shadow-xl border border-beige-200 h-auto w-[200px]"
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
