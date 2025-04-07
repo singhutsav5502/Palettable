@@ -1,28 +1,19 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import logo from '../assets/images/logo_inverted_upscaled.jpg';
 
 function WelcomeModal() {
-  const [isOpen, setIsOpen] = useState(false);
-  
-  useEffect(() => {
-    // Check if the user has seen the welcome modal before
-    const hasSeenWelcome = localStorage.getItem('hasSeenWelcome');
-    
-    if (!hasSeenWelcome) {
-      setIsOpen(true);
-    }
-  }, []);
+  const [isOpen, setIsOpen] = useState(true);
   
   const closeModal = () => {
     setIsOpen(false);
-    localStorage.setItem('hasSeenWelcome', 'true');
   };
 
   return (
     <AnimatePresence>
       {isOpen && (
         <motion.div
-          className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4"
+          className="fixed inset-0 flex items-center justify-center z-50 p-4"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
@@ -35,7 +26,10 @@ function WelcomeModal() {
             transition={{ type: 'spring', damping: 25 }}
           >
             <div className="p-6">
-              <h2 className="font-display text-2xl text-beige-900 mb-4">Welcome to Palettable!</h2>
+              <div className="flex items-center justify-center mb-4">
+                <img src={logo} alt="Palettable Logo" className="h-32 w-auto" />
+              </div>
+              <h2 className="font-display text-2xl text-beige-900 mb-4 text-center">Welcome to Palettable!</h2>
               
               <div className="space-y-4 text-beige-800">
                 <p>
@@ -60,7 +54,7 @@ function WelcomeModal() {
               <div className="mt-6 flex justify-end">
                 <motion.button
                   onClick={closeModal}
-                  className="px-4 py-2 bg-beige-700 text-white rounded-md"
+                  className="px-4 py-2 bg-beige-700 text-white rounded-md cursor-pointer"
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
