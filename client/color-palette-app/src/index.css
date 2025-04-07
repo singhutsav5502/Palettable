@@ -70,3 +70,12 @@ h1, h2, h3, h4, h5, h6 {
 .border-beige-700 { border-color: var(--color-beige-700); }
 .border-beige-800 { border-color: var(--color-beige-800); }
 .border-beige-900 { border-color: var(--color-beige-900); }
+
+.iframe-wrapper {
+  overflow: hidden;
+}
+
+.scrollable-iframe {
+  width: calc(100% + 20px);
+  height: 100%;
+}

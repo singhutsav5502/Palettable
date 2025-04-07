@@ -126,7 +126,7 @@ function AppContent() {
       <WelcomeModal />
       
       {/* Main content area */}
-      <main className="h-full pt-4 pb-24 px-4 overflow-auto">
+      <main className="h-full overflow-auto">
         {selectedTemplate ? (
           <TemplateDisplay 
             template={selectedTemplate} 
@@ -183,7 +183,7 @@ function AppContent() {
       {/* Buttons to open sidebars when closed */}
       {!isTemplateSidebarOpen && (
         <motion.button
-          className="fixed left-4 top-4 p-3 bg-amber-700 text-white rounded-full shadow-lg hover:bg-amber-800"
+          className="fixed left-4 top-4 p-3 bg-amber-700 text-white rounded-full shadow-lg hover:bg-amber-800 cursor-pointer"
           onClick={toggleTemplateSidebar}
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.9 }}
@@ -197,7 +197,7 @@ function AppContent() {
 
       {!isPaletteSidebarOpen && (
         <motion.button
-          className="fixed right-4 top-4 p-3 bg-amber-700 text-white rounded-full shadow-lg hover:bg-amber-800"
+          className="fixed right-4 top-4 p-3 bg-amber-700 text-white rounded-full shadow-lg hover:bg-amber-800 cursor-pointer"
           onClick={togglePaletteSidebar}
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.9 }}

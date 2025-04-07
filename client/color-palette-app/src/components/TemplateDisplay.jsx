@@ -75,20 +75,21 @@ function TemplateDisplay({ template, palette }) {
 
   return (
     <motion.div
-      className="max-w-6xl mx-auto h-full"
+      className=" h-full"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
     >
-      <div className="bg-white rounded-lg shadow-lg overflow-hidden h-full">
-        <iframe
-          ref={iframeRef}
-          srcDoc={renderTemplate()}
-          title={template.name}
-          className="w-full h-full border-0"
-          sandbox="allow-scripts"
-        />
-      </div>
+     <div className="bg-white overflow-hidden h-full iframe-wrapper">
+  <iframe
+    ref={iframeRef}
+    srcDoc={renderTemplate()}
+    title={template.name}
+    className="w-full h-full border-0 scrollable-iframe"
+    sandbox="allow-scripts"
+  />
+</div>
+
     </motion.div>
   );
 }
