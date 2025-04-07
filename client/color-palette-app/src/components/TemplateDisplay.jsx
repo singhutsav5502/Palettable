@@ -1,24 +1,44 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import { templateApi } from '../services/api';
+import Loading from './Loading';
 
 function TemplateDisplay({ template, palette }) {
   const iframeRef = useRef(null);
+  const [templateHtml, setTemplateHtml] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
-  // Increment view count when template changes
+  // Fetch HTML content and increment view count when template changes
   useEffect(() => {
     if (template?._id) {
+      setLoading(true);
+      setError(null);
+      
+      // Increment view count
       templateApi.viewTemplate(template._id).catch(err => {
         console.error('Error updating template view count:', err);
       });
+      
+      // Fetch HTML content
+      templateApi.getTemplateHtml(template._id)
+        .then(html => {
+          setTemplateHtml(html);
+          setLoading(false);
+        })
+        .catch(err => {
+          console.error('Error fetching template HTML:', err);
+          setError('Failed to load template content');
+          setLoading(false);
+        });
     }
   }, [template?._id]);
 
   // Render template with the selected palette
   const renderTemplate = () => {
-    if (!template || !palette) return null;
+    if (!templateHtml || !palette) return null;
     
-    let html = template.html;
+    let html = templateHtml;
     
     // Replace color variables in the template with the selected palette colors
     palette.colors.forEach((color, index) => {
@@ -33,6 +53,22 @@ function TemplateDisplay({ template, palette }) {
     return (
       <div className="flex items-center justify-center h-full">
         <p className="text-beige-700">Select a template and color palette to get started</p>
+      </div>
+    );
+  }
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-full">
+        <Loading />
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex items-center justify-center h-full">
+        <p className="text-red-500">{error}</p>
       </div>
     );
   }

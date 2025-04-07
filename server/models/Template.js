@@ -6,11 +6,15 @@ const TemplateSchema = new mongoose.Schema({
     required: true
   },
   html: {
-    type: String,
+    type: String,  
     required: true
   },
   thumbnail: {
-    type: String,
+    type: Buffer,  
+    required: true
+  },
+  thumbnailType: {
+    type: String, 
     required: true
   },
   likes: {

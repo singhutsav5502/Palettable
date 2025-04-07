@@ -35,7 +35,7 @@ function WelcomeModal() {
             transition={{ type: 'spring', damping: 25 }}
           >
             <div className="p-6">
-              <h2 className="font-display text-2xl text-beige-900 mb-4">Welcome to Color Palette Generator</h2>
+              <h2 className="font-display text-2xl text-beige-900 mb-4">Welcome to Palettable!</h2>
               
               <div className="space-y-4 text-beige-800">
                 <p>

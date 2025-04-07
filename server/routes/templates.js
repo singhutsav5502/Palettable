@@ -6,16 +6,8 @@ const fs = require('fs').promises;
 const nodeHtmlToImage = require('node-html-to-image');
 const Template = require('../models/Template');
 
-// Configure multer for file uploads
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, 'public/uploads/');
-  },
-  filename: (req, file, cb) => {
-    cb(null, `${Date.now()}-${file.originalname}`);
-  }
-});
-
+// Configure multer for memory storage (not saving to disk)
+const storage = multer.memoryStorage();
 const upload = multer({ 
   storage,
   limits: { fileSize: 5 * 1024 * 1024 }, // 5MB limit
@@ -27,7 +19,7 @@ const upload = multer({
     if (mimetype && extname) {
       return cb(null, true);
     } else {
-      cb('Error: Images and HTML files only!');
+      cb(new Error('Error: Images and HTML files only!'));
     }
   }
 });
@@ -35,8 +27,38 @@ const upload = multer({
 // Get all templates
 router.get('/', async (req, res) => {
   try {
-    const templates = await Template.find().sort({ likes: -1 });
+    const templates = await Template.find().select('-html -thumbnail').sort({ likes: -1 });
     res.json(templates);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+// Get HTML content for a template
+router.get('/:id/html', async (req, res) => {
+  try {
+    const template = await Template.findById(req.params.id).select('html');
+    if (!template) {
+      return res.status(404).json({ message: 'Template not found' });
+    }
+    
+    res.set('Content-Type', 'text/html');
+    res.send(template.html);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+// Get thumbnail for a template
+router.get('/:id/thumbnail', async (req, res) => {
+  try {
+    const template = await Template.findById(req.params.id).select('thumbnail thumbnailType');
+    if (!template) {
+      return res.status(404).json({ message: 'Template not found' });
+    }
+    
+    res.set('Content-Type', template.thumbnailType);
+    res.send(template.thumbnail);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
@@ -52,19 +74,15 @@ router.post('/', upload.fields([
       return res.status(400).json({ message: 'Missing HTML file' });
     }
 
-    const htmlContent = await fs.readFile(req.files.html[0].path, 'utf8');
-    let thumbnailPath;
+    // Get HTML content
+    const htmlContent = req.files.html[0].buffer.toString('utf8');
+    let thumbnailBuffer;
+    let thumbnailType;
 
     // Check if we need to auto-generate the thumbnail
     if (req.body.autoGenerateThumbnail === 'true') {
-      // Generate a filename for the thumbnail
-      const thumbnailFilename = `${Date.now()}-auto-thumbnail.png`;
-      thumbnailPath = `/uploads/${thumbnailFilename}`;
-      const fullThumbnailPath = path.join('public', thumbnailPath);
-      
-      // Generate the thumbnail using node-html-to-image
-      await nodeHtmlToImage({
-        output: fullThumbnailPath,
+      // Generate thumbnail from HTML
+      thumbnailBuffer = await nodeHtmlToImage({
         html: htmlContent,
         type: 'png',
         transparent: false,
@@ -74,22 +92,39 @@ router.post('/', upload.fields([
             height: 630,
             deviceScaleFactor: 1
           }
-        }
+        },
+        encoding: 'binary'
       });
+      thumbnailType = 'image/png';
     } else if (req.files.thumbnail) {
-      thumbnailPath = `/uploads/${req.files.thumbnail[0].filename}`;
+      thumbnailBuffer = req.files.thumbnail[0].buffer;
+      thumbnailType = req.files.thumbnail[0].mimetype;
     } else {
       return res.status(400).json({ message: 'Either provide a thumbnail or enable auto-generation' });
     }
     
+    // Create template document
     const template = new Template({
       name: req.body.name,
       html: htmlContent,
-      thumbnail: thumbnailPath
+      thumbnail: thumbnailBuffer,
+      thumbnailType: thumbnailType,
+      likes: 0,
+      views: 0
     });
 
     const newTemplate = await template.save();
-    res.status(201).json(newTemplate);
+    
+    // Don't send back the full HTML and thumbnail in the response
+    const templateResponse = {
+      _id: newTemplate._id,
+      name: newTemplate.name,
+      likes: newTemplate.likes,
+      views: newTemplate.views,
+      createdAt: newTemplate.createdAt
+    };
+    
+    res.status(201).json(templateResponse);
   } catch (err) {
     console.error('Template upload error:', err);
     res.status(400).json({ message: err.message });
@@ -99,7 +134,11 @@ router.post('/', upload.fields([
 // Like a template
 router.put('/:id/like', async (req, res) => {
   try {
-    const template = await Template.findById(req.params.id);
+    const template = await Template.findById(req.params.id).select('-html -thumbnail');
+    if (!template) {
+      return res.status(404).json({ message: 'Template not found' });
+    }
+    
     template.likes += 1;
     await template.save();
     res.json(template);
@@ -107,9 +146,15 @@ router.put('/:id/like', async (req, res) => {
     res.status(400).json({ message: err.message });
   }
 });
+
+// Increment view count
 router.put('/:id/view', async (req, res) => {
   try {
-    const template = await Template.findById(req.params.id);
+    const template = await Template.findById(req.params.id).select('-html -thumbnail');
+    if (!template) {
+      return res.status(404).json({ message: 'Template not found' });
+    }
+    
     template.views += 1;
     await template.save();
     res.json(template);
@@ -117,4 +162,5 @@ router.put('/:id/view', async (req, res) => {
     res.status(400).json({ message: err.message });
   }
 });
+
 module.exports = router;
