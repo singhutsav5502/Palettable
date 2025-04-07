@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Landing Page Template</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: {{color1}};
+      color: {{color5}};
+    }
+    
+    header {
+      background-color: {{color2}};
+      padding: 1.5rem;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    .logo {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: {{color5}};
+    }
+    
+    .nav-links {
+      display: flex;
+      gap: 1.5rem;
+    }
+    
+    .nav-links a {
+      color: {{color5}};
+      text-decoration: none;
+      font-weight: 500;
+    }
+    
+    .hero {
+      padding: 4rem 2rem;
+      text-align: center;
+      background-color: {{color3}};
+      color: {{color5}};
+    }
+    
+    .hero h1 {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+    
+    .hero p {
+      font-size: 1.2rem;
+      max-width: 600px;
+      margin: 0 auto 2rem;
+      opacity: 0.9;
+    }
+    
+    .cta-button {
+      display: inline-block;
+      background-color: {{color4}};
+      color: white;
+      padding: 0.75rem 1.5rem;
+      border-radius: 4px;
+      font-weight: bold;
+      text-decoration: none;
+    }
+    
+    .features {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 4rem 2rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+    
+    .feature {
+      background-color: {{color2}};
+      padding: 2rem;
+      border-radius: 8px;
+      text-align: center;
+    }
+    
+    .feature h3 {
+      margin-top: 0;
+      color: {{color5}};
+    }
+    
+    footer {
+      background-color: {{color3}};
+      color: {{color5}};
+      text-align: center;
+      padding: 2rem;
+      margin-top: 2rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <nav>
+      <div class="logo">ColorPalette</div>
+      <div class="nav-links">
+        <a href="#">Home</a>
+        <a href="#">Features</a>
+        <a href="#">Pricing</a>
+        <a href="#">Contact</a>
+      </div>
+    </nav>
+  </header>
+  
+  <section class="hero">
+    <h1>Beautiful Color Palettes for Your Projects</h1>
+    <p>Discover and create stunning color combinations that will make your designs stand out.</p>
+    <a href="#" class="cta-button">Get Started</a>
+  </section>
+  
+  <section class="features">
+    <div class="feature">
+      <h3>Generate Palettes</h3>
+      <p>Create random color palettes with a single click or customize your own.</p>
+    </div>
+    <div class="feature">
+      <h3>Save Favorites</h3>
+      <p>Store your favorite color combinations for future projects.</p>
+    </div>
+    <div class="feature">
+      <h3>Preview Templates</h3>
+      <p>See how your colors look in real-world applications.</p>
+    </div>
+  </section>
+  
+  <footer>
+    <p>&copy; 2025 Color Palette Generator. All rights reserved.</p>
+  </footer>
+</body>
+</html>

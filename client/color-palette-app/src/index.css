@@ -1,0 +1,72 @@
+@import "tailwindcss";
+@import '@fontsource/poppins/400.css';
+@import '@fontsource/poppins/500.css';
+@import '@fontsource/poppins/600.css';
+@import '@fontsource/poppins/700.css';
+@import '@fontsource/space-grotesk/700.css';
+@import '@fontsource/playfair-display/700.css';
+@import '@fontsource/lora/400.css';
+@import '@fontsource/lora/500.css';
+@import '@fontsource/lora/600.css';
+
+:root {
+  --color-beige-50: #fdf8f1;
+  --color-beige-100: #f8eee1;
+  --color-beige-200: #f2e2cf;
+  --color-beige-300: #e6d0b7;
+  --color-beige-400: #d9ba99;
+  --color-beige-500: #c9a47a;
+  --color-beige-600: #b48c63;
+  --color-beige-700: #96714d;
+  --color-beige-800: #7a5c40;
+  --color-beige-900: #654c36;
+  
+  --font-display: 'Playfair Display', serif;
+  --font-body: 'Lora', serif;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--color-beige-50);
+  color: var(--color-beige-900);
+  margin: 0;
+  padding: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+}
+
+/* Tailwind doesn't have beige by default, so we'll add custom classes */
+.bg-beige-50 { background-color: var(--color-beige-50); }
+.bg-beige-100 { background-color: var(--color-beige-100); }
+.bg-beige-200 { background-color: var(--color-beige-200); }
+.bg-beige-300 { background-color: var(--color-beige-300); }
+.bg-beige-400 { background-color: var(--color-beige-400); }
+.bg-beige-500 { background-color: var(--color-beige-500); }
+.bg-beige-600 { background-color: var(--color-beige-600); }
+.bg-beige-700 { background-color: var(--color-beige-700); }
+.bg-beige-800 { background-color: var(--color-beige-800); }
+.bg-beige-900 { background-color: var(--color-beige-900); }
+
+.text-beige-50 { color: var(--color-beige-50); }
+.text-beige-100 { color: var(--color-beige-100); }
+.text-beige-200 { color: var(--color-beige-200); }
+.text-beige-300 { color: var(--color-beige-300); }
+.text-beige-400 { color: var(--color-beige-400); }
+.text-beige-500 { color: var(--color-beige-500); }
+.text-beige-600 { color: var(--color-beige-600); }
+.text-beige-700 { color: var(--color-beige-700); }
+.text-beige-800 { color: var(--color-beige-800); }
+.text-beige-900 { color: var(--color-beige-900); }
+
+.border-beige-50 { border-color: var(--color-beige-50); }
+.border-beige-100 { border-color: var(--color-beige-100); }
+.border-beige-200 { border-color: var(--color-beige-200); }
+.border-beige-300 { border-color: var(--color-beige-300); }
+.border-beige-400 { border-color: var(--color-beige-400); }
+.border-beige-500 { border-color: var(--color-beige-500); }
+.border-beige-600 { border-color: var(--color-beige-600); }
+.border-beige-700 { border-color: var(--color-beige-700); }
+.border-beige-800 { border-color: var(--color-beige-800); }
+.border-beige-900 { border-color: var(--color-beige-900); }
