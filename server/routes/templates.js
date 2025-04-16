@@ -74,14 +74,14 @@ router.post('/', upload.fields([
       return res.status(400).json({ message: 'Missing HTML file' });
     }
 
-    // Get HTML content
+    
     const htmlContent = req.files.html[0].buffer.toString('utf8');
     let thumbnailBuffer;
     let thumbnailType;
 
-    // Check if we need to auto-generate the thumbnail
+    
     if (req.body.autoGenerateThumbnail === 'true') {
-      // Generate thumbnail from HTML
+
       thumbnailBuffer = await nodeHtmlToImage({
         html: htmlContent,
         type: 'png',
@@ -103,7 +103,6 @@ router.post('/', upload.fields([
       return res.status(400).json({ message: 'Either provide a thumbnail or enable auto-generation' });
     }
     
-    // Create template document
     const template = new Template({
       name: req.body.name,
       html: htmlContent,
@@ -114,8 +113,7 @@ router.post('/', upload.fields([
     });
 
     const newTemplate = await template.save();
-    
-    // Don't send back the full HTML and thumbnail in the response
+   
     const templateResponse = {
       _id: newTemplate._id,
       name: newTemplate.name,
@@ -131,7 +129,6 @@ router.post('/', upload.fields([
   }
 });
 
-// Like a template
 router.put('/:id/like', async (req, res) => {
   try {
     const template = await Template.findById(req.params.id).select('-html -thumbnail');
@@ -147,7 +144,6 @@ router.put('/:id/like', async (req, res) => {
   }
 });
 
-// Increment view count
 router.put('/:id/view', async (req, res) => {
   try {
     const template = await Template.findById(req.params.id).select('-html -thumbnail');
